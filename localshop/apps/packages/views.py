@@ -84,7 +84,13 @@ class SimpleDetail(DetailView):
 
         releases = package.releases
         if version:
-            releases = releases.filter(version=version)
+            # check if the version requested is higher than the version pinned to this package.
+            if version > package.version:
+                # requested package version is higher than what is allowed, do nothing.
+                releases = releases.filter(version=package.version)
+            else:
+                # requested version is allowable, so look for releases.
+                releases = releases.filter(version=version)
 
             # Perhaps this version is new, refresh data
             if releases.count() == 0:

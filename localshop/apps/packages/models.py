@@ -30,9 +30,11 @@ class Package(models.Model):
     is_local = models.BooleanField(default=False)
 
     #: Timestamp when we last retrieved the metadata
-    update_timestamp = models.DateTimeField(null=True)
+    update_timestamp = models.DateTimeField(null=True, blank=True)
 
     owners = models.ManyToManyField(User)
+
+    version = models.CharField(max_length=10, blank=True, null=True)
 
     class Meta:
         ordering = ['name']
